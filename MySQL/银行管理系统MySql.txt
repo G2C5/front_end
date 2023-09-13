@@ -1,0 +1,205 @@
+
+
+///////////////答案网址//////////////////////////
+
+https://wenku.baidu.com/view/6294e9f853e79b89680203d8ce2f0066f4336412.html?_wkts_=1667634175558
+
+-------------------------------------------------------------
+-------------------------------------------------------------
+在mysql数据库中，用DDL和DML语句实现以下操作，并将代码和运行结果截图上传。
+S ( SNO, SNAME, AGE, SEX, SDEPT )
+
+    SC ( SNO, CNO, GRADE)
+
+    C ( CNO, CNAME, CDEPT, TNAME)
+
+(1) 创建教学数据库的三个基本表，并向3个表中插入测试数据：
+
+CREATE TABLE s(-- 学生信息表
+	sno char(5) primary key,-- 学号
+	sname varchar(20) unique,-- 学生姓名
+	age int,-- 学生年龄
+	sex char(2),-- 学生性别
+	sdept varchar(20)-- 学生所在系部
+);
+
+CREATE TABLE c(-- 课程表
+	cno char(5) primary key,-- 课程号
+	cname varchar(20),-- 课程名
+	cdept varchar(20),-- 课程所在系
+	tname varchar(20)-- 教师名
+);
+
+CREATE TABLE sc( -- 选课表 
+	sno char(5),-- 学号
+	cno char(5),-- 课程号
+	grade numeric(3),-- 成绩
+	-- 添加外键sno,关联s_tb表的sno主键
+	CONSTRAINT fk_tb_s FOREIGN KEY(sno) REFERENCES s(sno),
+	-- 添加外键cno,关联c_tb表的cno主键
+	CONSTRAINT fk_tb_c FOREIGN KEY(cno) REFERENCES c(cno)	
+);
+
+
+
+INSERT INTO 
+	s(sno,sname,age,sex,sdept) 
+VALUES 
+('st1','杨云',20,'男','信息'),
+('st2','wang',21,'男','计算机'),
+('st3','赵海',19,'男','大数据'),
+('st4','宋云月',20,'女','信息'),
+('st5','李云蓝',29,'女','计算机');
+
+INSERT INTO 
+	c(cno,cname,cdept,tname) 
+VALUES 
+('c1','数据库','大数据','赵高还'),
+('c2','线性代数','大数据','里斯'),
+('c3','高等数学','计算机','王五'),
+('c4','计算机基础','信息','赵高还');
+
+INSERT INTO
+	sc(sno,cno,grade)
+VALUES
+('st1','c4','86'),
+('st2','c3','67'),
+('st3','c1','82'),
+('st3','c2','66'),
+('st4','c4','56'),
+('st5','c3','96');
+
+(2) 在基本表S中检索每一门课程成绩都大于或等于80分的学生学号、姓名和性别，并将家奴搜结果保存到另一个已存在的基本表STUDENT( SNO, SNAME, SEX)中。
+
+CREATE TABLE STUDENT(
+     SNO CHAR(5),
+     SNAME VARCHAR(20),
+     SEX CHAR(2)
+);
+
+INSERT INTO 
+	student(sno,sname,sex) 
+SELECT 
+	sno,sname,sex
+FROM
+	s
+WHERE NOT EXISTS
+(SELECT*FROM 
+	sc 
+WHERE 
+	grade<80 AND s.sno=sc.sno
+);
+
+(3) 把Wang同学的学习选课和成绩全部删去。
+DELETE FROM sc WHERE sno IN(SELECT sno FROM s WHERE sname='wang');
+
+(4) 把低于总平均成绩的女同学成绩提高5%。
+
+UPDATE sc SET grade <(SELECT AVG(grade) FROM sc) AND sno IN (SELECT sno FROM s WHERE sex='女');
+
+(5) 在基本表SC中修改C4课程的成绩，若成绩小于或等于75分时提高5%，若成绩大于75分时提高4%（用两个update语句实现）
+UPDATE sc SET grade = grade*1.05 WHERE cno = 'c4' AND grade<=75;
+UPDATE sc SET grade = grade*1.04 WHERE cno = 'c4' AND grade>75;
+
+
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+在mysql数据中实现某仓库管理系统的5个关系，实现以下操作并将代码和运行结果截图上传。
+
+零件 PART ( PNO, PNAME, COLOR, WEIGHT)
+
+项目 PROJECT ( JNO, JNAME, DATE)
+
+供应商 SUPPLIER ( SNO, SNAME, SADDR)
+
+供应 P_P ( JNO, PNO, TOTAL)
+
+采购 P_S ( PNO, SNO, QUANTITY)
+
+(1) 试用SQL DDL 语句定义上述5个基本表，说明主键和外键，并为每个表插入测试数据。
+
+CREATE TABLE PART( -- 零件表
+	PNO CHAR(4) NOT NULL,PNAME CHAR(12) NOT NULL,
+	COLOR CHAR(10,WEIGHT REAL,
+	PRIMARY KEY(PNO)
+);
+
+CREATE TABLE PROJECT(-- 项目表
+	INO CHAR(4) NOT NULL,
+	JNAME CHAR(12) NOT NULL,
+	DATE DATE,
+	PRIMARY KEY(JNO)
+);
+
+CREATE TABLE SUPLIER(-- 供应商
+	SNO CHAR(4) NOT NULL,
+	SNAME CHAR(12),
+	SADDR VARCHAR(20),PRIMARY KEY(SNO)
+);
+
+CREATE TABLE P_P(-- 供应
+	JNO CHAR(4),
+	PNO CHAR(4,
+	TOTAL INTEGER,
+	PRIMARY KEY(JNO,PNO),
+	FOREIGN KEY(PNO) REFERENCE PROJECT(JNO),
+	FOREIGN KEY(PNO) REFERENCE PART(PNO)
+);
+
+CREATE TABLE P_S(-- 采购
+	PNO CHAR(4),
+	SNO CHAR(4),
+	QUANTITY INTEGER,
+	PRIMARY KEY(PNO,SNO),
+	FOREIGN KEY(PNO) REFERENCE PART(PNO),
+	FOREIGN KEY(SNO) REFERENCE SUPLIER(SNO)
+);
+
+(2) 试将PROJECT、P_P、PART三个基本表的自然连接定义为一个视图VIEW1，PART、P_S、SUPPLIER三个基本表的自然连接定义为一个视图VIEW2。
+
+-- VIEW1
+
+CREATE VIEW 
+	VIEW1(JNO,JNAME,DATE,PNO,PNAME,COLOR,WEIGHT,TOTAL)
+AS SELECT
+	PROJECT.JNO,JNAME,DATE,PART.PNO,PNAME,COLOR,WEIGHT,TOTAL
+FROM 
+	PROJECT,PART,P_P
+WHERE 
+	PART.PNO=P_P.PNO AND P_P.JNO=PROJECT.JNO;
+
+-- VIEW2
+
+CREATE VIEW
+	VIEW2(PNO,PNAME,COLOR,WEIGHT,SNO,SNAME,SADDR,QUANTITY)
+AS SELECT
+	PART.PNO,PNAME,COLOR,WEIGHT,SUPPLIER.SNO,SNAME,SADDR,QUANTITY
+FROM 
+	PART,P_S,SUPPLIER;
+
+(3)  试在上述两个视图的基础上进行数据查询：
+检索上海的供应商所提供的零件的编号和名称；
+
+SELECT 
+	PNO,PNAME 
+FROM 
+	VIEW2 
+WHERE 
+	SADDR='SHANGHAI';
+
+检索项目J4所用零件的供应商编号和名称。
+SELECT 
+	SNO,SNAME 
+FROM 
+	VIEW2 
+WHERE 
+	PNO 
+IN(
+	SELECT 
+		PNO 
+	FROM 
+		VIEW 
+	WHERE 
+		JNO='J4'
+);

@@ -1,0 +1,334 @@
+//////////////////////////////佛职院///////////////////////////
+
+
+
+
+
+
+
+//////////////////////创建&添加//////////////////////
+//创建数据库 CREATE DATABASE my_onlinedb CHARACTER SET gb2312 COLLATE gb2312_chinese_ci;
+//添加
+CREATE DATABASE test_db; //创建一个数据库：test_db
+
+//////////////////////查看//////////////////////
+//查看数所有据库 SHOW DATABASES;  
+//查看数据库信息 SHOW CREATE DATABASE my_onlinedb;
+//查看MYSQL储存引擎 SHOW VARIABLES LIKE 'STORAGE_ENGINE';
+//查看表 DESC my_Users;
+//查看所有表 SHOW TABLES; 
+//查看表定义 SHOW CREATE TABLE my_Goods\G;
+//查看表中数据 SELECT*FROM MY_USERS;
+//查询tID=1数据 SELECT * FROM my_Goods WHERE tID = 1; 
+
+//查询gdCity = '上海'并且单价小于等于3000的数据    SELECT * FROM my_Goods WHERE gdCity = '上海' AND gdPrice <= 3000;
+//利用Between and语句，查询gdSaleQty大于等于50小于等于200的数据     SELECT * FROM my_Goods WHERE gdSaleQty BETWEEN 50 AND 200;
+//使用LIKE运算符查询uName中带"二"字的名字的数据    SELECT * FROM my_Users WHERE uName LIKE '%二%';
+//使用REGEXP运算符查询uPhone结尾为“567“的数据    SELECT * FROM my_Users WHERE uPhone REGEXP '567$';
+//使用IS NULL运算符，查询uImage为NULL的数据        SELECT * FROM my_Users WHERE uImage IS NULL;
+//使用DISTINCT运算符，查询表中uCredit大于100的用户来源于哪个城市     ​SELECT DISTINCT uQQ FROM my_Users WHERE uCredit>50;
+//使用GROUP BY子句，实现以来源城市作为分组，计算每个分组中uCredit的最大值（使用聚合函数中的MAX函数，课本P110）
+//////////////////////////////////////////         SELECT uQQ,MAX(uCredit) FROM my_Users GROUP BY uQQ;
+
+
+//////////////////////修改//////////////////////
+//修改表中字段                     ALTER TABLE my_Goods CHANGE gdAddTime gdAddTime TIMESTAMP DEFAULT NOW();
+//修改表中编号：009的销售量为5    UPDATE my_goods SET tID = '1' WHERE gdHot = '65'; 
+
+//////////////////////删除//////////////////////
+//删除表 DROP TABLE 表名; 
+//删除表中数据  DELETE FROM my_Users WHERE uID = 1;  TRUNCATE my_Users;
+//删除数据库 DROP DATABASE MY_ONLINEDB;
+drop table  if exists 表名;#删除cardInfo数据表，即使没有数据表也不报错
+//////////////////////创建会员信息表 my_Users//////////////////////
+
+CREATE TABLE my_Users(
+uID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '会员ID',
+uName varchar(30) NOT NULL,
+uPwd varchar(30) NOT NULL,
+uSex ENUM('男','女') DEFAULT '男',
+uBirth DATETIME,
+uPhone varchar(20),
+uEmail varchar(50),
+uQQ varchar(20),
+uImage varchar(100),
+uCredit int(4) DEFAULT 0,
+uRegTime DATETIME);
+
+//插入数据
+INSERT INTO my_Users(uID,uName,uPwd,uSex,uBirth,uPhone,uEmail,uQQ,uImage,uCredit,uRegTime) VALUES
+('1','小零','xiaoyi','女','2000-04-12','13406700067','120304560@qq.com','120304560','xiaoling0','40','2020-04-04'),
+('2','小一','xiaoyi','女','2000-05-15','13456755567','125354565@qq.com','125354565','xiaoyi5','50','2020-05-05'),
+('3','小二','xiaoer','男','2000-06-16','13426722267','122324262@qq.com','122324262','xiaoer2','60','2020-06-06'),
+('4','小森','xiaoer','男','2000-07-17','13476777767','127374767@qq.com','127374767','xiaosen7','60','2020-07-07');
+
+//////////////////////创建商品类别表 my_GoodsType//////////////////////
+
+CREATE TABLE my_GoodsType(
+tID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '类别ID',
+tName varchar(100) NOT NULL);
+
+//插入数据
+INSERT INTO my_GoodsType(tID,tName) VALUES
+('001','乐器'),
+('002','玩具'),
+('003','文具'),
+('004','数码');
+
+//////////////////////创建商品信息表 my_Goods//////////////////////
+
+CREATE TABLE my_Goods(
+gID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '商品ID',
+tID int(4) NOT NULL,
+gdCode varchar(50) NOT NULL,
+gdName varchar(100) NOT NULL,
+gdPrice float(8) DEFAULT 0,
+gdQuantity int(4) DEFAULT 0,
+gdSaleQty int(4) DEFAULT 0,
+gdCity varchar(50) DEFAULT '长沙',
+gdImage varchar(100),
+gdInfo TEXT,
+gdAddTime DATETIME,
+gdHot int(4) DEFAULT 0 );
+
+//插入数据
+INSERT INTO my_Goods(tID,gdCode,gdName,gdPrice,gdQuantity,gdSaleQty,gdCity) VALUES
+('001','099','紫竹洞箫','288','200','100','浙江'),
+('002','100','喜鹊风筝','20','500','600','佛山');
+INSERT INTO my_Goods(tID,gdCode,gdName,gdPrice,gdQuantity,gdSaleQty,gdCity,gdInfo) VALUES('001','007','老红木唢呐','1600','1','300','天津','“流氓乐器”');
+INSERT INTO my_Goods(tID,gdCode,gdName,gdPrice,gdQuantity,gdSaleQty,gdCity,gdInfo) VALUES('4','008','索尼A6000','4000','500','150','上海','4D对焦,带取景器高性价比');
+INSERT INTO my_Goods(tID,gdCode,gdName,gdPrice,gdQuantity,gdSaleQty,gdCity,gdInfo) VALUES('3','010','parker纯黑丽雅金夹墨钢笔','2888','100','60','上海','派克书写顺滑流畅');
+
+//////////////////////创建购物车信息表 my_Scars//////////////////////
+
+CREATE TABLE my_Scars(
+ScID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '购物车ID',
+uID int(4) NOT NULL,
+gdID int(4) NOT NULL,
+ScNum int(4) DEFAULT 0 );
+//添加
+INSERT INTO my_Scars
+
+//////////////////////创建订单信息表my_Orders//////////////////////
+
+CREATE TABLE my_Orders(
+oID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '订单ID',
+uID int(4) NOT NULL,
+oTime DATETIME,
+oTotal float(8) DEFAULT 0 );
+//插入数据
+INSERT INTO my_Orders(uID,oTime,oTotal) VALUES
+()
+
+
+
+
+//////////////////////创建订单详情表 my_OrderDetail//////////////////////
+
+CREATE TABLE my_OrderDetail(
+odID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '详情ID',
+oID int(4) NOT NULL,
+gdID int(4) NOT NULL,
+odNum int(4) DEFAULT 0,
+dEvalution varchar(8000),
+odtime DATETIME );
+
+//////////////////////外键约束//////////////////////
+
+//创建表时命名约束添加 CONSTRAINT FK_tID FOREIGN KEY (tID) REFERENCES my_GoodsType(tID);
+
+CG//创表之后命名约束添加 ALTER TABLE my_Goods ADD CONSTRAINT FK_tID FOREIGN KEY(tID) REFERENCES my_GoodsType(tID);
+// ALTER TABLE my_Goods ADD CONSTRAINT FK_gdID FOREIGN KEY(gdID) REFERENCES my_Scars(gdID);
+CG// ALTER TABLE my_Orders ADD CONSTRAFK_oID FOREIGN KEY(oID) REFERENCES my_OrderDetail(oID);
+// ALTER TABLE my_OrderDetail ADD CONSTRAINT FK_gdID FOREIGN KEY(gdID) REFERENCES my_Goods(gdID);
+
+//删除 ALTER TABLE my_OrderDetail DROP FOREIGN KEY FK_oID;
+
+//////////////////////唯一性约束//////////////////////
+
+//创表之后命名约束添加 ALTER TABLE my_Users ADD CONSTRAINT UQ_uName UNIQUE(uName);
+		       ALTER TABLE my_Goods ADD CONSTRAINT UQ_gdName UNIQUE(gdName);
+                       ALTER TABLE my_Users ADD UNIQUE('username')
+//删除                 ALTER TABLE my_Goods DROP FOREIGN KEY UQ_uName;
+
+//////////////////////唯默认值约束//////////////////////timestamp TIMESTAMP才支持系统默认时间DATETIME不支持/////////////////
+
+//修改DATETIME类型为TIMESTAMP类型 ALTER TABLE my_Goods CHANGE gdAddTime gdAddTime TIMESTAMP DEFAULT NOW();
+//默认系统时间 ALTER TABLE my_Goods MODIFY gdAddTime  DEFAULT NOW();
+//默认0 ALTER TABLE my_Goods MODIFY gdSaleQty INT DEFAULT 0; 
+
+
+
+///////////////////////////////////白云开始////////////////////////////////////////////////
+mysqld --initialize --user=myaql --console
+
+D:\my_programming_tools\mysql8.0.30\bin>mysqld --initialize --user=myaql --console
+2022-09-17T12:47:28.787453Z 0 [System] [MY-013169] [Server] D:\my_programming_tools\mysql8.0.30\bin\mysqld.exe (mysqld 8.0.30) initializing of server in progress as process 31136
+2022-09-17T12:47:28.810195Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2022-09-17T12:47:29.200657Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2022-09-17T12:47:30.133239Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: gQ<f8hpB8rWp
+
+net start MySQL
+
+net stop MySQL
+
+mysql -u root -p
+
+ALTER USER root@localhost IDENTIFIED BY '******'
+
+ALTER USER root@localhost IDENTIFIED BY '1234'
+
+setx PATH "%PATH%";D:\my_programming_tools\mysql8.0.30\bin
+
+
+
+CREATE TABLE student(
+uID int(4) PRIMARY KEY AUTO_INCREMENT COMMENT '学号',
+uName varchar(30) NOT NULL,
+uSex ENUM('男','女') DEFAULT '男',
+uSushe varchar(20),
+uXuehui varchar(100),
+uDate int(4) DEFAULT 0
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+------------------银行管理系统-----------------------
+---------------------------------------------------//删除表 DROP TABLE 表名; 
+
+--------------------------------------------------
+---------创建客户信息表--userInfo--------------------------------
+--------------------------------------------------
+
+
+create table userInfo(	#创建表userInfo
+customerID int auto_increment PRIMARY key,	#客户编号，自动增量auto_increment，从1开始，主键PRIMARY KEY
+PID char(18) UNIQUE NOT NULL,		#身份证号18位，必填非空，唯一约束UNIQUE
+customerName varchar(20) not null,		#开户名，必填非空
+telephone varchar(15) not null,	#电话号码，必填非空
+address varchar(50)	#地址，可以为空
+);
+
+
+alter table userInfo add CONSTRAINT UQ_PID UNIQUE(PID);  # ！！！建表时没有加唯一约束UNIQUE才使用
+#给userInfo表的PID添加一个唯一约束
+
+desc userInfo; #查看数据表的表结构
+
+-----------------------------------------------------
+-----------------创建 银行卡账户信息表 --cardInfo---------------
+-----------------------------------------------------
+
+
+create table cardInfo(	#创建cardInfo数据表---银行卡表
+cardID char(19)  UNIQUE NOT NULL PRIMARY KEY, 	#卡号，主键，唯一约束UNIQUE，必填非空
+password char(6) DEFAULT'888888' NOT NULL, 	#密码，必填非空，默认'888888'
+curID varchar(10) DEFAULT'RNB' NOT NULL, 	#货币种类，必填非空，默认 'RNB'
+savingID int not null, 	#外键，存款类型，必填非空
+openDate Datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, 	#开户日期，必填非空，默认当前系统时间CURRENT_TIMESTAMP
+openMoney double NOT NULL,	#开户金额，必填非空
+balance double NOT NULL, 	#余额，必填非空
+isReportLoss char(1) DEFAULT 0,	 	#是否挂失，是1/否0，默认为否，必填非空
+customerID int NOT NULL, 	#客户编号,外键FOREING KEY
+CONSTRAINT FK_customerID FOREIGN key(customerID) REFERENCES uerInfo(customerID), #cardInfo为userInfo的从表，外键customerID参考为userInfo表的客户编号
+CONSTRAINT FK_savingID FOREIGN key(savingID) REFERENCES ???deposit(savingID)#设置外键，cardInfo为userInfo的从表，savingID参考为userInfo表的存款类型编号
+);
+
+desc cardInfo;#查看数据表的表结构
+
+
+------------------------------------------------
+-------------创建交易信息表--tradeInfo-----------------------
+-------------------------------------------------
+
+create table tradeInfo 	#创建tradeInfo数据表---交易表
+( 
+tradeDate Datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, 	#交易日期，必填，默认为系统当前日期和时间
+tradeType enum("存入","支出") not null, 	#交易类型，必填非空，只能是存入/支取
+cardID char(19) not null, 	#卡号，外键，必填非空
+tradeMoney DOUBLE not null,	#交易金额，必填非空，默认>0
+machine char(8) DEFAULT 1 not null, 	#终端机编号，默认非空
+CONSTRAINT PK_cardID_tradeInfo PRIMARY key(cardID,tradeDate) 	​#在tardeInfo表中设置cardID，tradeDate为联合主键
+);
+
+desc tradeInfo;#查看数据表的表结构
+
+
+
+------------------------------------------------
+-------------创建存款类型表--deposit-----------------------
+-------------------------------------------------
+drop table  if exists deposit;	#删除deposit数据表，即使没有数据表也不报错
+
+create table deposit   #创建deposit数据表--->存款类型表
+(  
+savingID INT AUTO_INCREMENT PRIMARY KEY, #存款类型编号，自动增量从1开始，主键
+savingName varchar(20) not null,#存款类型名称，必填非空
+descript varchar(50)	#描述
+);
+desc deposit;
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+alter table cardInfo MODIFY COLUMN openDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+​
+#开户日期设置默认为当前系统时间
+
+
+---------------------------------------------------------------------
+-------------银行卡账户信息表 --cardInfo-----------添加约束----------------
+-----------------------------------------------------------------------
+
+alter table cardInfo add CONSTRAINT FK_customerID FOREIGN key(customerID) REFERENCES userInfo(customerID);
+​#设置外键，cardInfo为userInfo的从表，customerID参考为userInfo表的客户编号
+
+alter table cardInfo add CONSTRAINT FK_customerID REFERENCES userInfo(customerID);
+#设置cardInfo为userInfo的从表，customerID参考为userInfo表的客户编号
+
+-------------------------------------------------------------------------------------------------------------
+
+alter table cardInfo add CONSTRAINT FK_savingID FOREIGN key(savingID) REFERENCES deposit(savingID); 
+​#未设置外键，cardInfo为userInfo的从表，savingID参考为userInfo表的存款类型编号
+
+alter table cardInfo add CONSTRAINT FK_savingID REFERENCES deposit(savingID); 
+​#设置cardInfo为userInfo的从表，savingID参考为userInfo表的存款类型编号
+
+
+---------------------------------------------------------------------
+-------------创建交易信息表--tradeInfo-----------添加约束----------------
+-----------------------------------------------------------------------
+alter table tradeInfo add CONSTRAINT PK_cardID_tradeInfo PRIMARY key(cardID,tradeDate);
+​#在tardeInfo表中设置cardID，tradeDate为联合主键
+
+----------------------------------------------------------------------------------------------------------
+
+alter table tradeInfo add CONSTRAINT FK_cardID FOREIGN key(cardID) REFERENCES cardInfo(cardID);
+​#设置外键，tradeInfo为cardInfo的从表，cardID参考cardInfo的卡号
+
+alter table tradeInfo add CONSTRAINT FK_cardID REFERENCES cardInfo(cardID);
+​#设置tradeInfo为cardInfo的从表，cardID参考cardInfo的卡号
