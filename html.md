@@ -1145,7 +1145,7 @@ p::after{
 ## css选择器优先级
 
 1. !important > 内联样式 > ID 选择器 > 类选择器、属性选择器、伪类选择器 > 元素选择器、伪元素选择器 > 继承
-2. `#id > .class > element`，权重：例子如下（最后是orange）
+2. `#id > .class > type`，权重：例子如下（最后是orange）
 
 ```html
 <style>

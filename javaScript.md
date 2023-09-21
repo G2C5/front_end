@@ -1,4 +1,4 @@
-# 语法和变量
+#  语法和变量
 
 ------
 
@@ -340,8 +340,8 @@ console.log(num);// 30
 ## 预解析
 
 1. 变量声明提升：在代码执行前，JavaScript 引擎会将所有变量声明提升到当前作用域的顶部。这意味着，无论变量声明出现在什么位置，都可以在其作用域内进行访问。
-2. 函数声明提升：在代码执行前，JavaScript 引擎会将所有函数声明提升到当前作用域的顶部。这意味着，无论函数声明出现在什么位置，都可以在其作用域内进行访问。
-3. 处理函数表达式：在 JavaScript 中，函数表达式是一种定义函数的方式。在预解析阶段，JavaScript 引擎会处理函数表达式，并将其赋值给变量。这意味着，变量可以作为函数使用。
+2. 函数声明提升：在代码执行前，JavaScript 引擎会将所有函数声明提44升到当前作用域的顶部。这意味着，无论函数声明出现在什么位置，都可以在其作用域内进行访问。
+3. 处理函数表达式：在 J4avaScript 中，函数表达式是一种定义函数的方式。在预解析阶段，JavaScript 引擎会处理函数表达式，并将其赋值给变量。这意味着，变量可以作为函数使用。
 4. 处理 this 和 arguments：在 JavaScript 中，函数内部的 this 和 arguments 对象是在函数被调用时才会被创建。但是，在预解析阶段，JavaScript 引擎会创建一个预先定义的 this 和 arguments 对象，以便在函数被调用时使用。
 
 js代码运行 **预解析** 和 **代码执行** 两步：
@@ -431,6 +431,118 @@ function f1() {
 // console.log(a); // 报错
 ```
 
+## 流程控制
+
+### 	顺序结构
+
+### 	分支结构
+
+------
+
+### 	循环结构
+
+```javascript
+// for循环是最常用的循环结构，用于重复执行一段代码，通常用于遍历数组或执行已知次数的循环
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+// while 循环在给定条件为真的情况下重复执行代码块，条件在循环开始前进行检查
+let i = 0;
+while (i < 5) {
+  console.log(i);
+  i++;
+}
+// do...while 循环类似于 while 循环，但它首先执行一次循环体，然后在检查条件是否为真
+let i = 0;
+do {
+  console.log(i);
+  i++;
+} while (i < 5);
+// for...in 循环用于遍历对象的可枚举属性，通常用于迭代对象属性
+const person = {
+  name: 'Alice',
+  age: 30,
+  gender: 'female'
+};
+for (const key in person) {
+  console.log(`${key}: ${person[key]}`);
+}
+// for...of 循环用于遍历可迭代对象（如数组、字符串、Map、Set 等），通常用于遍历数组元素或字符串字符
+const fruits = ['apple', 'banana', 'cherry'];
+for (const fruit of fruits) {
+  console.log(fruit);
+}
+```
+
+
+
+------
+
+## 遍历&迭代
+
+#### forEach
+
+1.  没有返回值；
+
+2.  无法中断执行；
+
+3.  可以使用`return`跳过当前循环；
+
+4.  跳过数组的空位，但不会跳过`null`和`undefined`；
+
+5.  item：item是基础数据类型，那么并不会改变数组里面的值，如果是引用类型，那么item和数组里面的值是指向同一内存地址，则都会被改变
+
+6.  手写
+
+    ```javascript
+    Array.prototype.new_forEach = function(callback) { // 可以看出时数组原型方法
+        for (let i = 0; i < this.length; i++) { 
+            callback(this[i], i, this) 
+        }
+    }
+    ```
+
+    `array.forEach(callback(currentValue, index, array), thisArg);`
+
+    -   `callback` 是一个函数，用于对数组中的每个元素执行操作。
+    -   `currentValue` 是当前正在处理的元素的值。
+    -   `index` 是当前正在处理的元素的索引。
+    -   `array` 是正在遍历的数组。
+    -   `thisArg` 是可选的，用于设置 `callback` 函数内部的 `this` 值。
+
+------
+
+#### map
+
+1.  具有返回值；
+2.  无法中断执行，同forEach；
+3.  可以使用`return`跳过当前循环，同forEach；
+4.  跳过数组的空位，但不会跳过`null`和`undefined`，同forEach；
+5.  改变数组情况，同forEach;
+6.  手写map方法；
+
+```javascript
+var a = [1,2,3,4,5] 
+var b = a.map((item) => { return item = item * 2 }) 
+console.log(a) // [1,2,3,4,5] 
+console.log(b) // [2,4,6,8,10]
+// 手写
+Array.prototype.new_map = function(callback) { // 可以看出时数组原型方法
+    const res = [] 
+    for (let i = 0; i < this.length; i++) { 
+        res.push(callback(this[i], i, this)) 
+    } 
+    return res 
+}
+```
+
+#### for
+
+1.  for循环是个语句，forEach和map则是表达式；
+2.  for循环可以使用`break`结束循环；
+3.  for循环可以使用`continue`语句跳过当前循环；
+4.  for循环不会跳过数组的空位，会默认空位为undefined；
+
 # 两大数据类型
 
 ## 数据类型判断
@@ -445,7 +557,7 @@ function f1() {
 [1, 2, 3] instanceof Array // true or false 
 [1,2,3].constructor === Array
 Object.prototype.toString.call([1, 2, 3]) // [object Array]
-
+ 
 Array.prototype.isPrototypeOf([1, 2, 3]) // true or false
 Array.isArray([1, 2, 3]) // true or false 通过ES6
 [1, 2, 3].__proto__ === Array.prototype // 通过原型链去判断
@@ -786,13 +898,14 @@ console.log(Math.abs('-2')); // 2 绝对值隐式转换
 
 ### 	Arrary
 
-#### array的创建和获取
+#### 创建·获取
 
 ```javascript
 // 1.new创建数组
- var arr = new Array(); //创建了空数组
-//var arr = new Array(2); //创建了长度为2的空数组
-//var arr = new Array(2,3); // 包含元素 2 和 3
+var arr = new Array(); //创建了空数组
+var arr = new Array(2); //创建了长度为2的空数组
+var arr = new Array(2,3); // 包含元素 2 和 3
+var arr = new Array(2,); // 包含元素2
 
 // 2.利用数组字面量创建数组 []
 var arr = [2];// 创建了长度为2的空数组
@@ -802,7 +915,7 @@ var arr1 = [1,2, 'red',true];
 console.log(arr1[0]);
 ```
 
-#### array的遍历
+#### 遍历
 
 ```Java
 var arr = ['red','green','blue'];
@@ -823,7 +936,12 @@ for(k in arr){
 }
 ```
 
-#### array的索引查找
+#### 查找·索引
+
+| 序号 | 检测方法      | 描述                                       |
+| ---- | ------------- | ------------------------------------------ |
+| 1    | indexOf()     | 返回第一个满足条件元素的索引值，无返回-1   |
+| 2    | lastIndexOf() | 返回最后一个满足条件元素的索引值，无返回-1 |
 
 ```javascript
 var colorArr = ['red', 'blue', 'yellow', 'purple', 'green', 'black', 'green','green'];
@@ -834,7 +952,7 @@ console.log(colorArr.indexOf('green')); // 4
 console.log(colorArr.lastIndexOf('green')); // 7
 ```
 
-#### array的检测
+#### 类型·检测
 
 | 序号 | 检测方法            | 说明                                           |
 | ---- | ------------------- | ---------------------------------------------- |
@@ -859,8 +977,6 @@ console.log(Array.isArray(colorArr));
 | 2    | array.unshift(arrEle) | 开头追加元素     | 改变原数组，返回值是数字型的数组长度    |
 | 3    | array.pop()           | 删除最后一个元素 | 一次删除一个，返回删除元素，改变原数组  |
 | 4    | array.shift()         | 删除第一个元素   | 一次删除一个， 返回删除元素，改变原数组 |
-
-
 
 #### 连接·截取·删除·插入
 
@@ -1360,18 +1476,6 @@ if (flag < 10) {
 }
 ```
 
-
-
-### 	Map	
-
-# 流程控制
-
-## 	顺序结构
-
-## 	分支结构
-
-## 	循环结构
-
 # 内置对象
 
 ## 	Math对象
@@ -1801,17 +1905,18 @@ for (var i = 0; i < 2; i++) {
     arr[i] = function () { console.log(i) }
 }
 // i变量提升，全局变量，i循环完值是2，调用函数使用i的最终值2
-arr[0]();
-arr[1]();
-// let声明循环变量
+arr[0](); // 2
+arr[1](); // 2
+
+// let 声明循环变量
 var arr1 = [];
 // 每次循环都产生一个块级作用域，各自绑定let声明的i
 for (let i = 0; i < 2; i++) {
     arr1[i] = function () { console.log(i) }
 }
-// i变量提升，全局变量，i循环完值是2，调用函数使用i的最终值2
-arr1[0]();
-arr1[1]();
+// i没有变量提升，局部变量，每次循环的i值都不一样
+arr1[0](); // 0
+arr1[1](); // 1
 ```
 
 
@@ -1858,7 +1963,7 @@ let name = `邓紫棋`;
 let sayHello = `Hellow, 我的名字叫${name}`;
 console.log(sayHello);
 // 4.可以调用函数
-const sing = song => `唱首${song}给你听！`;
+const sing = (song) => `唱首${song}给你听！`;
 let singasong = `今天，${sing('偶尔')}`;
 console.log(singasong)
 ```
@@ -2098,7 +2203,7 @@ console.log(vname)
  */
 // 1. 创建一个类
  class Vsinger {
-	// 构造函数 创建实例时自动调用、返回值
+	// 构造函数 创建实例时自动调用并返回值
      // 接收传递来的参数，同时返回实例对象
      constructor(vname, age) {
          this.vname = vname;
@@ -2151,7 +2256,7 @@ class VSinger {
 // 子类 YZLing
 class YZLing extends VSinger {
     constructor(vname, song) {
-        super(vname, song); // 2.（1）super调用父类中的构造参数 必须字类this前面
+        super(vname, song); // 2.（1）super调用父类中的构造参数 必须在子类this前面
         this.vname = vname;
         this.song = song;
     }
@@ -2475,7 +2580,7 @@ console.log(that); // Start
 ```javascript
 /**
  * 原型对象 prototype
- * 扩展内置对象
+ * 扩展内置对象（Array）
  */
 
 // 数组原型对象中追加求和方法
@@ -2682,11 +2787,14 @@ setInterval(function () { console.log('滴——') }, 5000);;
 
 ### 改变函数this指向
 
-| 方法  |                                        |      |
-| ----- | -------------------------------------- | ---- |
-| apply | `apply(thisArg[, argsArray])`          |      |
-| bind  | `call(thisArg[, arg1[, arg2[, ...]]])` |      |
-| call  | `bind(thisArg[, arg1[, arg2[, ...]]])` |      |
+| 方法  | 语法结构                               | 执行时机     | 传参方式 |
+| ----- | -------------------------------------- | ------------ | -------- |
+| call  | `bind(thisArg[, arg1[, arg2[, ...]]])` | 立即执行     | 随意     |
+| apply | `apply(thisArg[, argsArray])`          | 立即执行     | 数组     |
+| bind  | `call(thisArg[, arg1[, arg2[, ...]]])` | 不会立即执行 | 随意     |
+
+-   `call` 和 `apply` 是用于立即调用函数并传递参数的方法，它们的区别在于参数的传递方式。
+-   `bind` 用于创建一个新函数，该新函数具有指定的上下文，并且可以使用变量接收稍后调用。
 
 ```javascript
 /**
@@ -2698,7 +2806,8 @@ function sayH(a, b) {
     console.log('hello !')
     console.log(a + b)
 }
-sayH.call(o, 1, 2) // 调用函数，改变this指向，传递参数，实现继承
+sayH.call(o, 1, 2) 
+// 调用函数，改变this指向，传递参数，实现继承
 function Father(name, age) {
     this.name = name
     this.age = age
@@ -2762,6 +2871,8 @@ btn.onclick = function () {
 
 ### 闭包
 
+内部函数访问外部函数变量的一种关于函数和作用域的概念。可以用来封装私有变量、实现模块模式、延迟执行函数等。
+
 ```javascript
 // 闭包closure： 有权访问另一个函数作用域种变量的函数
 // 1. 闭包是一个函数
@@ -2781,6 +2892,24 @@ function fn() {
 var f = fn();
 f();
 ```
+
+------
+
+#### 特点
+
+1.  延长变量的作用域。
+2.  保留作用域链。（通过作用域链，依然可以访问外部函数的变量）
+3.  延长变量的生命周期。（外部函数的变量在闭包存在时不会被销毁，哪怕函数执行完毕，因为遍历引用还存在）
+4.  创建私有变量和函数。（外部作用域无法直接访问内部变量或函数）
+
+内存泄漏：
+
+1.  **循环引用**：闭包被外部定义的变量接收引用。
+2.  **未及时释放资源**：闭包存储在全局变量或长期存在的数据结构中
+    1.  明智地管理闭包的生命周期，确保它们在不再需要时被释放。
+    2.  避免循环引用，特别是在闭包和外部作用域之间。
+    3.  使用局部变量而不是全局变量，以限制闭包的范围。
+    4.  在不需要的时候手动解除对闭包的引用，以便垃圾回收器可以回收它们。（设置为null）
 
 ------
 
@@ -2957,9 +3086,7 @@ console.log(getId(data, 4))
 console.log(getId(data, 3))
 ```
 
-------
 
-### 函数方法
 
 ------
 
@@ -3018,58 +3145,80 @@ btn.onclick = () => {
 
 ## Set
 
-### Set实例方法
+Set 是一种内置的数据结构，用于存储唯一的值（不允许重复）。可以传递一个可迭代对象（例如数组）来初始化 Set 并添加初始值。
 
 ```javascript
-/**
+/*
+ *  Set实例方法
  * 1. add(value) 添加元素,必须是唯一，返回Set本身
  * 2. delete(value) 删除值, 返回布尔值
  * 3. has(value) 确定是否Set成员，返回布尔值
  * 4. clear(value) 清除Set全部成员，无返回值
+ * 5. size 获取成员数量
+ * 6. 素组去重
+ * 7. 遍历
  */
+// 创建
 const s = new Set();
-// 1. 可以往set上添加元素,必须是唯一
+// 1. 
 s.add(1).add(2).add(3);
-console.log(s.size) // 3
 // 2. 
-console.log(
-    s.delete(1) // ture
-)
+s.delete(1) // ture
 // 3.
-console.log(
-    s.has(3) // ture
-)
+s.has(3) // ture
 // 4.
-s.clear();
-console.log(s)
-```
-
-### Set数据结构
-
-```javascript
-/**
- * Set 数据结构
- * 1. 本身是一个构造函数
- * 2. 与数组类似，成员值唯一
- * 3. 可以接收数组，用来初始化
- * 4. 去重应用(数组去重)
- */
-const s1 = new Set();
-console.log(s1.size); // 长度 0
-const s2 = new Set([1, 2]);
-console.log(s2);
-// 4. 去重应用(数组去重)
+ s.clear();
+// 5
+s.size
+// 6. 去重应用(数组去重)
 const s3 = new Set(['a', 'b', 'b', 'a']);
 console.log(s3.size)
 const ary = [...s3];
 console.log(ary)
-/**
- * 遍历Set
- */
+// 7. 遍历Set
 const s = new Set(['a', 'b', 'c', 'd']);
 s.forEach((value, index) => {
     console.log(value + '-' + index)
 })
+```
+
+------
+
+## Map
+
+`Map` 是 JavaScript 中的一种数据结构，用于存储键值对的集合，其中键是唯一的，每个键都映射到一个值。可以传递一个可迭代对象（例如数组）的数组表示来初始化 Map。
+
+```javascript
+/**
+ * Map实例方法
+ * 1. get(key) 通过 键 获取 值
+ * 2. set(key,value) 存入一个键值对
+ * 3. has(key) 检查键是否存在于 Map 中，返回布尔值
+ * 4. delete(key) 删除某一个键值对，无返回值
+ * 5. 遍历 forEach、for...of
+ * 6. size 获取键值对数量
+ */
+// 创建 
+const singer = [['name', 'yzl'], ['age', 20]];
+const personMap = new Map(singer);
+// 1.
+const name = myMap.get('yzl'); // 返回 'yzl'
+// 2.
+myMap.set('color', 'red');
+// 3.
+const exists = myMap.has('age'); // 返回 true
+// 4.
+myMap.delete('name');
+// 5.
+myMap.forEach((value, key) => {
+  console.log(key, value);
+});
+
+for (const [key, value] of myMap) {
+  console.log(key, value);
+}
+// 6.
+const size = myMap.size;
 ```
 
 
@@ -3115,7 +3264,7 @@ arr.forEach(function (value, index, array) {
     console.log(array)
 })
 
-// 2. 筛选，返回新数组
+// 2. 筛选，返回新数组。包含所有匹配值
 var newArr = arr.filter(function (value, index) {
     return value >=2 0;
 })
@@ -3244,6 +3393,45 @@ console.log(str1); // aaa
 
 ## Object
 
+### 内置方法Object.keys()
+
+`Object.keys()` 方法可以用于获取对象的所有可枚举属性，并返回一个包含属性名的数组。
+你可以遍历这个数组，然后访问对象的属性。
+
+```javascript
+const person = {
+  name: 'Alice',
+  age: 30,
+  gender: 'female'
+};
+
+const keys = Object.keys(person);
+
+keys.forEach((key) => {
+  console.log(key, person[key]);
+});
+```
+
+### 内置方法Object.entries()
+
+`Object.entries()` 方法可以用于获取对象的所有可枚举属性键值对，并返回一个包含键值对的数组。你可以遍历这个数组，然后访问键和值。
+
+```javascript
+const person = {
+  name: 'Alice',
+  age: 30,
+  gender: 'female'
+};
+
+const entries = Object.entries(person);
+
+entries.forEach(([key, value]) => {
+  console.log(key, value);
+});
+```
+
+
+
 ### 内置方法Object.defineProperty
 
 它允许你在一个对象上定义一个新属性或修改一个已有属性。
@@ -3257,9 +3445,9 @@ console.log(str1); // aaa
  *  descriptor: 目标属性所拥有的特性
  * 
  * 属性配置
- * writable: false 不可重写这个属性，默认false
- * enumerable: false,// 不可遍历 ，默认false
- * configurable: false // 不可删除且不能修改第三个参数其它特性，默认false
+ * writable: false, // 不可重写这个属性，默认false
+ * enumerable: false,// 不可遍历（可枚举状态） ，默认true
+ * configurable: false, // 不可删除且不能修改第三个参数其它特性，默认false
  */
 var Singer = {
     name: '邓紫棋',
@@ -3292,10 +3480,10 @@ console.log(Object.keys(Singer));
 
 Object.assign(target, ...sources)
 
-- `target`：目标对象，即要将源对象的属性复制到的对象。
-- `sources`：一个或多个源对象，即要从中复制属性的对象。
+- `target`：目标对象：即载体，接收复制的属性。
+- `sources`：样本：复制的样本、可以是多个对象、数组。（后面的覆盖前面的，相同属性只保留一个）
 
-`Object.assign()` 方法会返回目标对象。
+`Object.assign()` 方法会返回更新的目标对象。
 `Object.assign()` 可以用于创建对象的副本或组合对象的属性。
 
 ```javascript
@@ -3303,24 +3491,21 @@ Object.assign(target, ...sources)
 const originalObj = { a: 1, b: 2 };
 const copiedObj = { ...originalObj };
 
-// 使用 Object.assign() 方法
+// 使用 Object.assign() 方法创建副本
 const originalObj = { a: 1, b: 2 };
 const copiedObj = Object.assign({}, originalObj);
 
-// 创建对象副本
+// 组合 obj1 和 obj2 属性
 const obj1 = { a: 1, b: 2 };
-const obj2 = Object.assign({}, obj1);
-console.log(obj2); // { a: 1, b: 2 }
-
-// 组合对象属性
-const obj3 = { c: 3 };
-const obj4 = Object.assign({}, obj1, obj3);
+const obj2 = { c: 3 };
+const obj3 = Object.assign({}, obj1, obj2);
 console.log(obj4); // { a: 1, b: 2, c: 3 }
 
-// 后面的对象属性值将覆盖前面的对象属性值
-const obj5 = { b: 3, d: 4 };
-const obj6 = Object.assign({}, obj1, obj5);
-console.log(obj6); // { a: 1, b: 3, d: 4 }
+// 后面的对象属性值 将覆盖前面的对象属性值，相同属性只保留一个
+const obj4 = {a: 1,b: 2, c: 3, d: 4 };
+const obj5 = { c: 3, d: 5,e: 6 };
+const obj6 = Object.assign({}, obj4, obj5);
+console.log(obj6); // { a: 1,b: 2, c: 3, d: 5,e: 6 }
 
 // Object.assign() 方法只能复制可枚举的自有属性。它不会复制对象的继承属性和不可枚举属性。
 const obj1 = { a: 1 };
@@ -3348,7 +3533,7 @@ console.log(obj3); // { c: 3, b: 2 }
 /**
  * 深拷贝：全部层次拷贝，不是拷贝地址
  * 
- * 注意：先判断数组，以为数组是也是对象类型
+ * 手写注意：先判断数组，因为数组是也是对象类型
  */
 // 递归函数实现
 function deepCopy(newObj, oldObj) {
@@ -3374,13 +3559,13 @@ function deepClone(object) {
     return object;
   }
   const result = Array.isArray(object) ? [] : {};
-  for (const key in object) {
-    if (Object.hasOwnProperty.call(object, key)) {
+  for (const key in object) { 
+    if (Object.hasOwnProperty.call(object, key)) { // hasOwnProperty只复制对象自身的属性，而不是继承的属性。
       result[key] = deepClone(object[key]);
     }
   }
   return result;
-
+}
 const obj1 = {
   a: 1,
   b: {
@@ -3394,6 +3579,7 @@ const obj2 = deepClone(obj1);
 console.log(obj2); // { a: 1, b: { c: 2, d: [3, 4] } }
 
 // 使用第三方库
+const _ = require('lodash');
 const originalObj = { a: 1, b: { c: 2 } };
 const copiedObj = _.cloneDeep(originalObj);  // Lodash 库
 ```

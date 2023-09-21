@@ -372,7 +372,7 @@ promise工作流程：
 ## 第一个promis实例
 
 ```javascript
-// 创建一个Promis、Ajax
+// 0. 创建一个Promis、Ajax
 const p = new Promise((resolve, reject) => {
     // 1. 创建对象
     const xhr = new XMLHttpRequest();
