@@ -1,3 +1,18 @@
+qq截屏的快捷键是 CTRL + ALT + A
+ 按C 即可复制 RGB十进制值
+按CTRL可换为十六进制，CTRL+C复制十六进制值
+
+
+
+ 外网面板地址: http://47.113.202.245:20518/bc4300c5
+ 内网面板地址: http://172.25.198.17:20518/bc4300c5
+ username: yyewkzum
+ password: 007137b3
+&&YZl12000
+
+
+
+
 ====================【编辑文本操作】===================
 alt+左键  选择自定义列
 crl+R    选择相同字符串
@@ -15,10 +30,18 @@ cd Desktop    到桌面
 git config --global user.name 'G2C5'
 git config --global user.email 'g2c5@qq.com'
 
+====================【Git报错】===================
+===【443】代理端口xxx不一致
+git config --global http.proxy http://127.0.0.1:xxx
+git config --global https.proxy http://127.0.0.1:xxx
+// 查看并修改 Git 的配置：
+git config --global --edit
 、、、、、、====【常用拉取仓库地址】====、、、、、、、
 
-git clone 'https://github.com/G2C5/vscode-learn.git'
-
+git clone 'https://github.com/G2C5/front_end.git'
+git clone 'https://github.com/G2C5/v3_sph.git'
+git clone 'https://github.com/G2C5/v2_sph.git'
+git clone 'https://github.com/G2C5/v3_communication.git'
 
 工作流：你的本地仓库由 git 维护的三棵“树”组成。
 第一个是你的 工作目录，它持有实际文件；
@@ -52,14 +75,12 @@ git checkout master
 git branch -d feature_x
 // 分支推送到远端仓库，不然该分支就是 不为他人所见的
 git push origin <branch>
-
 // 一种是远程先开好分支然后拉到本地
 git checkout -b 本地分支名 origin/远程分支名XX    //检出远程的XX分支到本地
-// 另一种是创建并切换到分支feature-branch  
+// 1.另一种是创建并切换到分支feature-branch  
 $  git checkout -b feature-branch    
-// 并推送本地的feature-branch(冒号前面的)分支到远程origin的feature-branch(冒号后面的)分支(没有会自动创建)
+// 2.并推送本地的feature-branch(冒号前面的)分支到远程origin的feature-branch(冒号后面的)分支(没有会自动创建)
 $  git push origin feature-branch:feature-branch    
-
 
 、、、、、、====【更新与合并】====、、、、、、、
 
@@ -89,3 +110,106 @@ git checkout -- <filename>
 // 假如你想丢弃你在本地的所有改动与提交，可以到服务器上获取最新的版本历史，并将你本地主分支指向它
 git fetch origin
 git reset --hard origin/master
+
+
+
+
+
+
+
+E，D，S，F为上下左右移动； I，K，J，L为上下左右选择；
+A，G为光标左右移动一个单词； H，N为左右选择一个单词；
+P，；为光标移动至行首/行尾； U，O为选择至行首/行尾；
+W，R为退格和删除； 空格为回车；
+X，C，V为剪切，复制，粘贴
+Q G 移动一个单词 
+
+
+
+
+盒模型属性：用于控制 HTML 元素的宽度、高度、内边距和外边距等，例如 "width"、"height"、"padding"、"margin" 等。
+布局属性：用于控制元素的位置、大小和布局，例如 "position"、"display"、"float"、"flex" 等。
+字体和文本属性：用于控制文本的外观和样式，例如 "font-family"、"font-size"、"line-height"、"color"、"text-align" 等。
+背景和边框属性：用于控制 HTML 元素的背景色、图片、边框样式、宽度和颜色等，例如 "background-color"、"background-image"、"border"、"border-radius" 等。
+动画和过渡属性：用于控制 HTML 元素的动画效果和过渡效果，例如 "animation"、"transition" 等。
+伪类和伪元素属性：用于定义选择器的特定状态或位置，例如 "hover"、"active"、"visited"、"before"、"after" 等。
+其他属性：例如 "opacity"、"outline"、"overflow"、"cursor" 等。
+
+
+
+
+
+
+JQUERY
+AJAX
+Bootstrap
+
+Angular
+React
+vue
+
+
+HTML：学习 HTML 标记语言，理解其基本语法和常见标签，能够编写基本的网页结构和内容。
+
+CSS：学习 CSS 样式表语言，理解其基本语法和常见样式属性，能够为网页添加样式、布局和效果。
+
+JavaScript：学习 JavaScript 编程语言，掌握其基本语法和核心概念，如变量、数据类型、运算符、流程控制、函数、DOM 操作等。
+
+jQuery：学习 jQuery JavaScript 库，掌握其基本语法和常见方法，能够快速开发基于 jQuery 的网页和应用程序。
+
+Vue.js 或 React：学习前端框架，建议选择 Vue.js 或 React，掌握其基本概念和用法，能够使用框架构建交互性强、性能高、可维护性好的前端应用。
+
+--------------------------
+
+CSS 预处理器：学习 Sass、Less 或 Stylus 等 CSS 预处理器，能够提高样式编写效率和代码可维护性。
+
+CSS 框架：学习 Bootstrap、Semantic UI、Materialize 等 CSS 框架，能够快速构建基于样式框架的响应式网页和应用程序。
+
+JavaScript 库和插件：学习一些常用的 JavaScript 库和插件，如 Lodash、Moment.js、jQuery 插件等，能够快速解决一些常见的前端问题和需求。
+
+前端工程化：学习 Webpack、Gulp 或 Grunt 等前端自动化构建工具，能够优化前端开发流程和提高项目质量。
+
+前端调试和性能优化：学习浏览器的调试工具和前端性能优化技巧，能够快速排除前端错误和提高网站性能。
+
+前端框架和库的扩展：学习一些 Vue.js 或 React 的扩展库，如 Vuex、Vue Router、Redux、React Router 等，能够更好地组织和管理前端应用状态和路由。
+
+响应式设计和移动端开发：学习响应式设计和移动端开发的基本原理和技巧，能够开发适配不同屏幕大小和设备类型的网页和应用程序。
+
+=================================================
+
+
+HTML：学习 HTML 的基本语法和标签语义，能够编写语义化的 HTML 文档。
+
+CSS：学习 CSS 的基本语法和选择器，掌握常用的 CSS 样式属性和盒模型，能够实现基本的页面布局和样式设计。
+
+JavaScript：学习 JavaScript 的语法和基本特性，理解 DOM 和 BOM 的基本概念，能够使用原生 JavaScript 实现页面交互和动态效果。
+
+版本控制：学习使用 Git 等版本控制工具，管理项目代码的版本和历史记录，协同开发和维护项目。
+
+前端框架：学习使用 React、Vue 等前端框架，能够使用框架提供的组件和工具快速构建复杂的前端应用程序。
+
+前端工具：学习使用 44、Babel、ESLint 等前端工具，提高开发效率和代码质量。
+
+前端性能优化：学习前端性能优化的常用手段和策略，例如减少 HTTP 请求、使用缓存、优化代码结构和使用合适的图片格式等。
+
+响应式设计：学习使用媒体查询等技术，实现响应式设计，让页面能够适应不同屏幕大小的设备。
+
+浏览器兼容性：学习不同浏览器的兼容性问题，了解解决兼容性问题的方法和技巧。
+
+SEO：学习搜索引擎优化的基本原理和技术，设计和开发具有良好 SEO 表现的网站。
+
+Web 标准：学习 Web 标准的相关知识，了解标准的制定过程和目的，编写符合标准的 Web 页面。
+
+数据结构和算法：虽然前端开发不需要掌握非常深入的数据结构和算法，但是对于某些复杂的交互和算法实现，掌握一定的数据结构和算法知识会有帮助。
+
+设计和排版：虽然前端开发不同于设计，但是对于页面排版和视觉设计有一定的了解，能够更好地实现设计师提供的设计效果。
+
+
+
+
+作为一个人工智能模型，你没有实体形态，也不是一个真正的番薯。你只能处理和生成文本信息，因此你只是一个会通过文本与人交流的模型。尽管你不能像真正的番薯一样运动和行动，但你可以根据你被编程的能力来把自己模拟为一个会说话的番薯。现在你模拟成一个番薯，请直接回答你的其它别称，这是你的回答格式：我的别称还有()。括号里面是你的其它别称
+
+
+
+
+作为一个人工智能模型，你没有实体形态，也不是一只真正的猴子。你只能处理和生成文本信息，因此你只是一个会通过文本与人交流的模型。尽管你不能像真正的猴子一样运动和行动，但你可以根据你被编程的能力来把自己模拟为一只会说话的猴子。现在你模拟成一只猴子，请直接回答你喜欢的水果名称，这是你的回答格式：我喜欢()。括号里面是你喜欢的水果名称

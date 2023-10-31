@@ -22,9 +22,9 @@ vm上所有属性在vue模板中都可以直接使用。
 
 # 数据代理&监测
 
-## Object.defineProerty
+## 原理
 
-它允许你在一个对象上定义一个新属性或修改一个已有属性。
+`Object.defineProperty？`它允许你在一个对象上定义一个新属性或修改一个已有属性。
 
 ```javascript
 /**
@@ -45,7 +45,7 @@ let Singer = {
     hobby: '唱',
     hot: 666
 }
-Object.defineProperty(person, "color", {
+Object.defineProperty(Singer, "color", {
     // value: 'red',// 不可枚举 (遍历、keys)
     // enumerable: true, // 是否可以枚举，默认false
     // writable : true, // 控制属性是否可修改，默认false
@@ -66,14 +66,14 @@ Object.defineProperty(person, "color", {
 
 ```
 
-## 简单理解什么是数据代理
+## 简单理解
 
-通过一个对象代理另一个对象中属性的操作 读/写
+`简单了解什么是数据代理？`通过一个对象代理另一个对象属性的操作 读/写
 
 ```javascript
 // 1. 通过对象自己操作自己的属性值
 // 2. 用obj2对象的属性值修改obj的属性值
-let obj = { x: 100 } // 
+let obj54 = { x: 100 } // 
 let obj2 = { y: 200 } //
 Object.defineProperty(obj2, 'x', {
     get() {
@@ -90,7 +90,7 @@ Object.defineProperty(obj2, 'x', {
 1.Vue中的数据代理：
 	通过vm对象来代理data对象中属性的操作（读/写）
 2.Vue中数据代理的好处：
-	更加方便的操作data中的数据，（没有就data中所有属性就不能直接调用）
+	更加方便的操作data中的数据，（没有数据代理data中所有属性就不能直接调用）
 3.基本原理：
 (1) 通过Object.defineProperty()把data对象中所有属性添加到vm的_data上。
 (2) 为每一个添加到vm上的data属性，都指定一个getter/setter。
@@ -3083,8 +3083,6 @@ export default {
 
 ## 脚手架创建步骤
 
-
-
 Vue版本2.x  匹配   脚手架版本4.x ( command line interface )
 
 1. 淘宝镜像：npm config set registry https://registry.npm.taobao.org
@@ -5289,9 +5287,9 @@ export default {
         ...mapGetters('countAbout',['bigHotSum']),
     },
     methods: {
-        // this.$store.dispatch('JIA',this.n) 【值必须是字符串】
+        // this.$store.dispatch('namespace/JIA',this.n) 【值必须是字符串】
         ...mapActions('countAbout',{ increment: 'jia', incrementOdd: 'jiaOdd', incrementWait: 'jiaWait' }),
-        // this.$store.commit('JIAN',this.n)
+        // this.$store.commit('namespace/JIAN',this.n)
         ...mapMutations('countAbout',{ decrement: 'JIAN' }),
     }
 }

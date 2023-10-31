@@ -372,21 +372,22 @@ promise工作流程：
 ## 第一个promis实例
 
 ```javascript
-// 0. 创建一个Promis、Ajax
+console.log('hh')
+// 0. 创建一个Promise，Ajax
 const p = new Promise((resolve, reject) => {
     // 1. 创建对象
     const xhr = new XMLHttpRequest();
     // 2. 初始化
-    xhr.open('GET', 'https://api.lsp.st/API/cosplay/index.php', true)
+    xhr.open('GET', 'https://api.thecatapi.com/v1/images/search?limit=1', true)
     // 3. 发送请求
     xhr.send()
     // 4. 处理响应
     xhr.onreadystatechange = function () {
-        if (xhr.onreadystatechange === 4) {
+        if (xhr.readyState === 4) {
             if (xhr.status >= 200 && xhr.status < 300) {
-                p.resolve(xhr.response);
+                resolve(xhr.response); // 使用resolve而不是p.resolve
             } else {
-                p.reject(xhr.status);
+                reject(xhr.status); // 使用reject而不是p.reject
             }
         }
     }
@@ -394,10 +395,18 @@ const p = new Promise((resolve, reject) => {
 // 使用 Promise 的 then 方法处理操作成功的情况
 p.then(
     // 成功的回调
-    value => { console.log('成功', value) },
+    (res) => {
+        console.log('成功', res)
+    },
     // 失败的回调
-    reason => { console.log('失败', reason) }
-)
+    reason => {
+        console.log('失败', reason)
+    }
+).catch(reason => {
+    console.log('捕获错误', reason);
+}).finally(() => {
+    console.log('无论如何都会执行的部分');
+})
 
 // 封装fs模块读取文件操作
 const fs = require('fs');

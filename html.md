@@ -2609,6 +2609,9 @@ url(../images/bg-rb.png) no-repeat right bottom;
 | text-overflow   | **文本溢出**，需要设置`overflow: 非visible取值;`并建议配合设置强制不换行`white-space: nowrap`<br />clicp（超出文本截断）<br />ellipsis（超出文本省略号代替） |
 | text-decoration | **文本修饰**，变化为复合属性<br />text-decoation-liner<br />text-decoraion-style<br />text-decoration-color<br />复合：text-decoration: overline solid blue; |
 | text-stroke     | **文本描边**，可能需要前缀-webkit-<br />text-stroke-color: red;<br />text-srtoke-width: 3px;<br />复合：text-srtoke: red 3px; 配合文字透明color：transparent，实现空心字 |
+| word-spacing    | **文字间距**，normal（默认）、length（自定义像素值）、intherit（继承父） |
+
+
 
 ------
 

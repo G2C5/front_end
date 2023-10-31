@@ -942,14 +942,18 @@ for(k in arr){
 | ---- | ------------- | ------------------------------------------ |
 | 1    | indexOf()     | 返回第一个满足条件元素的索引值，无返回-1   |
 | 2    | lastIndexOf() | 返回最后一个满足条件元素的索引值，无返回-1 |
+| 3    | includes()    | 用于检查数组中是否包含特定元素，返回布尔值 |
 
 ```javascript
 var colorArr = ['red', 'blue', 'yellow', 'purple', 'green', 'black', 'green','green'];
 // 1. indexOf() 返回第一个满足条件的元素的索引值 无返回-1
-console.log(colorArr.indexOf('green')); // 4
+colorArr.indexOf('green'); // 4
 
 // 2. lastIndexOf() 返回最后一个满足条件的元素的索引值 无返回-1
-console.log(colorArr.lastIndexOf('green')); // 7
+colorArr.lastIndexOf('green'); // 7
+
+//3. 返回一个布尔值，用于检查数组中是否包含特定元素elementToFind：要查找的元素。fromIndex（可选）：搜索的起始索引位置，默认为0
+array.includes(elementToFind, fromIndex)
 ```
 
 #### 类型·检测
@@ -2865,6 +2869,7 @@ btn.onclick = function () {
         // that.disabled =false;
         this.disabled = false;
     }.bind(btn), 3000)
+}
 ```
 
 ------
@@ -2880,12 +2885,12 @@ btn.onclick = function () {
 // fun是闭包函数
 function fn() {
     var num = 100
-    function fun() 
-        console.log
+    function fun() {
+        console.log(num)
     }
     // fun()
     return fun;
-}
+}      王海宏
 // 1. 情形
 // fn()
 // 2. 情形
@@ -3147,6 +3152,8 @@ btn.onclick = () => {
 
 Set 是一种内置的数据结构，用于存储唯一的值（不允许重复）。可以传递一个可迭代对象（例如数组）来初始化 Set 并添加初始值。
 
+在JavaScript中，`Set`是一种内置对象，用于存储一组唯一的值，它类似于数组，但不允许重复值。
+
 ```javascript
 /*
  *  Set实例方法
@@ -3186,7 +3193,20 @@ s.forEach((value, index) => {
 
 ## Map
 
-`Map` 是 JavaScript 中的一种数据结构，用于存储键值对的集合，其中键是唯一的，每个键都映射到一个值。可以传递一个可迭代对象（例如数组）的数组表示来初始化 Map。
+​		`Map` 是 JavaScript 中的一种数据结构，用于存储键值对的集合，其中键是唯一的，每个键都映射到一个值。可以传递一个可迭代对象（例如数组）的数组表示来初始化 Map。
+
+​		在JavaScript中，`map`是一个数组的高阶函数（Higher-Order Function），它用于创建一个新数组，该数组的每个元素都是原始数组中的元素经过特定函数处理后的结果。`map`函数不会修改原数组，而是返回一个新的数组。
+
+```javascript
+const newArray = array.map(callback(element, index, array));
+/*
+array：要操作的原始数组。
+callback：用于处理数组中每个元素的回调函数。该回调函数可以接受三个参数：
+element：当前被处理的元素。
+index（可选）：当前元素在数组中的索引。
+array（可选）：原始数组本身。
+*/
+```
 
 ```javascript
 /**
@@ -3202,23 +3222,23 @@ s.forEach((value, index) => {
 const singer = [['name', 'yzl'], ['age', 20]];
 const personMap = new Map(singer);
 // 1.
-const name = myMap.get('yzl'); // 返回 'yzl'
+const name = personMap.get('name'); // 返回 'yzl'
 // 2.
-myMap.set('color', 'red');
+personMap.set('color', 'red');
 // 3.
-const exists = myMap.has('age'); // 返回 true
+const exists = personMap.has('age'); // 返回 true
 // 4.
-myMap.delete('name');
+personMap.delete('name');
 // 5.
-myMap.forEach((value, key) => {
+personMap.forEach((value, key) => {
   console.log(key, value);
 });
 
-for (const [key, value] of myMap) {
+for (const [key, value] of personMap) {
   console.log(key, value);
 }
 // 6.
-const size = myMap.size;
+const size = personMap.size;
 ```
 
 
@@ -3294,12 +3314,12 @@ console.log(allNumbersArePositive); // Output: true
 
 ### 扩展方法
 
-| 序号 | 方法                              | 作用                     | 返回值            |
-| ---- | --------------------------------- | ------------------------ | ----------------- |
-| 1    | Array.from（oldArr,item）         | 将伪数组转为真数组       | 返回一个新数组    |
-| 2    | array.find((item,index)=>{})      | 找出第一个匹配的值       | undefined、匹配值 |
-| 3    | array.finIndex((value,index)=>{}) | 找出第一个匹配的值的位置 | -1、匹配值        |
-| 4    | array.includes(value);            | 判断有无一个匹配的值     | 布尔值            |
+| 序号 | 方法                                  | 作用                     | 返回值            |
+| ---- | ------------------------------------- | ------------------------ | ----------------- |
+| 1    | Array.from（oldArr,item）             | 将伪数组转为真数组       | 返回一个新数组    |
+| 2    | array.find((item,index)=>{})          | 找出第一个匹配的值       | undefined、匹配值 |
+| 3    | array.finIndex((value,index)=>{})     | 找出第一个匹配的值的位置 | -1、匹配值        |
+| 4    | array.includes(value[,beginIndex=0]); | 判断有无一个匹配的值     | 布尔值            |
 
 ```javascript
 // 1. Array.from（oldArr,item） 方法 
@@ -3476,7 +3496,7 @@ console.log(Object.keys(Singer));
 
 #### 浅拷贝
 
-**定义**：对象和数组是引用类型，当我们将一个对象或数组赋值给另一个变量时，实际上只是将其引用地址复制了一份。这意味着对复制后的变量进行修改，原始的对象或数组也会受到影响，这种复制方式称为浅拷贝。
+**本质**：浅拷贝创建了一个新的对象或数组，将原始对象或数组的属性或元素复制到新对象中。然而，对于原始对象或数组中的嵌套对象或数组，浅拷贝只会复制它们的引用，而不会递归地复制它们的内容。这意味着浅拷贝后的新对象仍然与原始对象共享嵌套对象。
 
 Object.assign(target, ...sources)
 
@@ -3536,10 +3556,12 @@ console.log(obj3); // { c: 3, b: 2 }
  * 手写注意：先判断数组，因为数组是也是对象类型
  */
 // 递归函数实现
+let o = {a:1,b:{c:1}}
+let obj = {}
 function deepCopy(newObj, oldObj) {
-    for (var k in oldObj) {
+    for (let k in oldObj) {
         // 判断数据类型?数组、对象、......
-        var item = oldObj[k]
+        let item = oldObj[k]
         if (item instanceof Array) {
             newObj[k] = [];
             deepCopy(newObj[k], item)
@@ -3582,6 +3604,11 @@ console.log(obj2); // { a: 1, b: { c: 2, d: [3, 4] } }
 const _ = require('lodash');
 const originalObj = { a: 1, b: { c: 2 } };
 const copiedObj = _.cloneDeep(originalObj);  // Lodash 库
+
+
+// 使用JSON.parse和JSON.stringify进行深拷贝
+const originalObject = { a: 1, b: { c: 2 } };
+const deepCopyObject = JSON.parse(JSON.stringify(originalObject));
 ```
 
 
