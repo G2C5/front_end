@@ -4,15 +4,6 @@ qq截屏的快捷键是 CTRL + ALT + A
 
 
 
- 外网面板地址: http://47.113.202.245:20518/bc4300c5
- 内网面板地址: http://172.25.198.17:20518/bc4300c5
- username: yyewkzum
- password: 007137b3
-&&YZl12000
-
-
-
-
 ====================【编辑文本操作】===================
 alt+左键  选择自定义列
 crl+R    选择相同字符串
@@ -29,6 +20,7 @@ cd Desktop    到桌面
 ====================【Git操作】===================
 git config --global user.name 'G2C5'
 git config --global user.email 'g2c5@qq.com'
+'https://github.com/G2C5/bililiapp.git'
 
 ====================【Git报错】===================
 ===【443】代理端口xxx不一致
@@ -42,6 +34,7 @@ git clone 'https://github.com/G2C5/front_end.git'
 git clone 'https://github.com/G2C5/v3_sph.git'
 git clone 'https://github.com/G2C5/v2_sph.git'
 git clone 'https://github.com/G2C5/v3_communication.git'
+git clone 'https://github.com/G2C5/bililiapp.git'
 
 工作流：你的本地仓库由 git 维护的三棵“树”组成。
 第一个是你的 工作目录，它持有实际文件；

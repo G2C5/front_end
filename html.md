@@ -116,7 +116,6 @@
 <s>删除线</s>
 <del>删除线</del>
 
-
 <!-- 不常用的文本标签 -->
 <cite>作品标题（书籍、歌曲、电影、绘画、雕塑...）</cite>
 <dfn>特殊术语、专属名词</dfn>
@@ -748,7 +747,7 @@ fieldset与legend标签
 
 ### 状态标签
 
-**1. `mater`：定义已知范围内的标量测量（又称`gauge`尺度）。双标签，用例：电量，磁盘用量等。**
+**1. `meter`：定义已知范围内的标量测量（又称`gauge`尺度）。双标签，用例：电量，磁盘用量等。**
 
 | 属性      | 值   | 描述       |
 | --------- | ---- | ---------- |
@@ -1144,7 +1143,7 @@ p::after{
 
 ## css选择器优先级
 
-1. !important > 内联样式 > ID 选择器 > 类选择器、属性选择器、伪类选择器 > 元素选择器、伪元素选择器 > 继承
+1. !important > 内联样式 > ID 选择器 > 类选择器、属性选择器、伪类选择器 > 元素（标签）选择器、伪元素选择器 > 继承
 2. `#id > .class > type`，权重：例子如下（最后是orange）
 
 ```html
@@ -1807,6 +1806,13 @@ td,th{
 ------
 
 ### 盒模型
+
+**怪异盒模型与标准盒模型区别？**宽高：包不包括边框、内边距。
+
+```
+box-sizing: content-box：标准盒模型；
+box-sizing: border-box：IE盒模型；
+```
 
 #### 基本属性
 
@@ -3303,6 +3309,647 @@ display 的值，设置为 flow-root（开启一个块格式化上下文）
 
 ​                           
 
-​                
-
 # ........
+
+
+
+
+
+# SASS--SCSS快速入门
+
+从第三代开始放弃缩进风格更名为scss
+
+## 环境配置
+
+LIve Sass Compiler 插件配置
+
+```javascript
+	/* sass压缩设置 */
+    "liveSassCompile.settings.formats": [
+        // This is Default.
+        {
+            "format": "compressed", // nested(嵌套), expanded(展开), compact(紧凑), compressed(压缩)
+            "extensionName": ".min.css", // 生成文件扩展名
+            "savePath": "~/../css" // 为 null 表示当前目录
+        }
+    ],
+    /* 排除目录 */
+    "liveSassCompile.settings.excludeList": [
+        "**/node_modules/**",
+        ".vscode/**"
+    ],
+    /* 是否生成对应的map */
+    "liveSassCompile.settings.generateMap": false,
+    /* 是否添加兼容前缀 如： -webkit- , -moz- ... */
+    "liveSassCompile.settings.autoprefix": [
+        "> 1%",
+        "last 2 versions"
+    ],
+```
+
+## 变量使用
+
+1.  变量 `$` (Variables: `$`)，简单使用
+
+```CSS
+$div-width: 200px;
+
+.div1{
+    width: $div-width;
+}
+```
+
+2.  块级作用域与局部变量，将局部变量转换为全局变量可以添加 `!global` 声明：
+
+```css
+#main {
+  $color: yellow !global;
+  width: $color;
+    
+   div{
+       background-color: $color;
+   }
+}
+```
+
+3.  默认变量值
+
+```css
+/* 加入!default会判断此变量是否已赋值，如果已经赋值就使用那个值，没有就使用!default关键字修饰的值*/
+$link-color: blue;
+$link-color: red !default;
+
+a {
+    color: $link-color;
+}
+```
+
+
+
+## 嵌套规则
+
+### 标识符&
+
+嵌套使用父选择器的标识符&
+
+```css
+.div {
+  width: 300px;
+  height: 300px;
+  background-color: #0ee;
+}
+.div-2 {
+  width: 100px;
+  height: 100px;
+  background-color: #e55;
+}
+.div-2 a {
+  background-color: yellow;
+  text-decoration: none;
+  color: #fff;
+}
+.div-2 a:hover {
+  color: #0ee;
+}
+```
+
+```scss
+.div {
+    width: 300px;
+    height: 300px;
+    background-color: #0ee;
+
+    &-2 {
+        $width: yellow;
+        width: 100px;
+        height: 100px;
+        background-color: #e55;
+
+        a {
+            background-color: $width;
+            text-decoration: none;
+            color: #fff;
+
+            &:hover {
+                color: #0ee;
+            }
+        }
+    }
+}
+```
+
+### 群组选择器
+
+```css
+.container h1, .container h2, .container h3 { margin-bottom: .8em }
+
+.container {
+  h1, h2, h3 {margin-bottom: .8em}
+}
+```
+
+### >、+和~
+
+子组合选择器和同层组合选择器：>、+和~
+
+1.  相同层相邻组合选择器 +
+
+    ```css
+    /* 选择header元素后紧跟的p元素： */
+    header + p { font-size: 1.1em }
+    ```
+
+2.  同层全体组合选择器 ~
+
+    ```css
+    /* 选择所有跟在article后的同层article元素，不管它们之间隔了多少其他元素： */
+    article ~ article { border-top: 1px dashed #ccc }
+    ```
+
+3.  嵌套综合运用
+
+    ```css
+    article {
+      ~ article { border-top: 1px dashed #ccc }
+      > section { background: #eee }
+      dl > {
+        dt { color: #333 }
+        dd { color: #555 }
+      }
+      nav + & { margin-top: 0 }
+    }
+    
+    article ~ article { border-top: 1px dashed #ccc }
+    article > footer { background: #eee }
+    article dl > dt { color: #333 }
+    article dl > dd { color: #555 }
+    nav + article { margin-top: 0 }
+    ```
+
+    
+
+### 嵌套属性
+
+```css
+/* 注意：嵌套属性必须用一个空格隔开！ */
+nav {
+  border: {
+  style: solid;
+  width: 1px;
+  color: #ccc;
+  }
+}
+
+nav {
+  border: 1px solid #ccc {
+  left: 0px;
+  right: 0px;
+  }
+}
+```
+
+
+
+------
+
+## 导入SCSS
+
+1.  scss文件里导入局部sass文件：`xxx.scss`文件开头以`_`，即：`_xxx.scss`。（一般导入的scss变量的.scss文件编译是空文件，可以加入下划线让其不编译）
+
+    ```
+    @import "xxx"
+    @import "xxx.scss"
+    ```
+
+2.  嵌套导入
+
+    文件：_blue-theme.scss
+
+    ```css
+    aside {
+      background: blue;
+      color: white;
+    }
+    ```
+
+    另一个文件中导入：
+
+    ```css
+    .blue-theme {@import "blue-theme"}
+    
+    //生成的结果跟你直接在.blue-theme选择器内写_blue-theme.scss文件的内容完全一样。
+    
+    .blue-theme {
+      aside {
+        background: blue;
+        color: #fff;
+      }
+    }
+    ```
+
+3.  原生css导入
+
+    -   被导入文件的名字以`.css`结尾；
+    -   被导入文件的名字是一个URL地址（比如http://www.sass.hk/css/css.css），由此可用谷歌字体API提供的相应服务；
+    -   被导入文件的名字是`CSS`的url()值。
+
+------
+
+## 静默注释
+
+一般情况下：
+
+```css
+body {
+  color: #333; // 这种注释内容不会出现在生成的css文件中
+  padding: 0; /* 这种注释内容会出现在生成的css文件中 */
+}
+```
+
+特殊情况：`sass`将不知怎么将注释生成到对应`css`文件中的相应位置，于是这些注释被抹掉。
+
+```css
+body {
+  color /* 这块注释内容不会出现在生成的css中 */: #333;
+  padding: 1; /* 这块注释内容也不会出现在生成的css中 */ 0;
+}
+```
+
+
+
+------
+
+## 混合器
+
+一般使用：
+
+```scss
+/*@mixin 定义混合器*/
+@mixin no-bullets {
+  list-style: none;
+  li {
+    list-style-image: none;
+    list-style-type: none;
+    margin-left: 0px;
+  }
+}
+/* @include 使用混合器 */
+ul.plain {
+  color: #444;
+  @include no-bullets;
+}
+/* scss结果 */
+ul.plain {
+  color: #444;
+  list-style: none;
+}
+ul.plain li {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0px;
+}
+```
+
+传参使用：
+
+```scss
+/*@mixin 定义混合器*/
+@mixin link-colors($normal, $hover, $visited) {
+  color: $normal;
+  &:hover { color: $hover; }
+  &:visited { color: $visited; }
+}
+/* 传参方式一、必须按顺序赋值 */
+a {
+  @include link-colors(blue, red, green);
+}
+/* 传参方式二、指定参数赋值，避免忘记参数顺序而赋值错误 */
+a {
+    @include link-colors(
+      $normal: blue,
+      $visited: green,
+      $hover: red
+  );
+}
+//Sass最终生成的是：
+
+a { color: blue; }
+a:hover { color: red; }
+a:visited { color: green; }
+```
+
+指定默认值
+
+指定默认值后，拥有默认值的参数可以不传参，编译时输出带有默认值的结果
+
+```scss
+/*@mixin 定义混合器：指定默认值 */
+@mixin link-colors($normal:#0ee, $hover, $visited) {
+  color: $normal;
+  &:hover { color: $hover; }
+  &:visited { color: $visited; }
+}
+```
+
+剩余参数
+
+```scss
+/* $gradients...以数组的形式，下标从1开始 */
+@mixin div-gradient($direction, $gradients...) {
+    background-color: nth($gradients, 1);
+    background-image: linear-gradient($direction, $gradients);
+}
+
+.container {
+    width: 200px;
+    height: 200px;
+    @include div-gradient(to right, #0ee, #e88, #e55)
+}
+```
+
+
+
+------
+
+## 选择器继承
+
+一个选择器可以继承为另一个选择器定义的所有样式。
+
+```scss
+//通过选择器继承继承样式，效果类似：class="seriousError error"
+%error {
+  border: 1px solid red;
+  background-color: #fdd;
+}
+.seriousError {
+  @extend %error;
+  border-width: 3px;
+}
+```
+
+使用占位符选择器：%，进行优化
+
+```scss
+/* 不使用编译结果 */
+.error,
+.seriousError { border: 1px solid red; background-color: #fdd; }
+.seriousError { border-width: 3px; }
+/* 使用编译结果 */
+.seriousError { border: 1px solid red; background-color: #fdd; }
+.seriousError { border-width: 3px; }
+```
+
+------
+
+## 函数
+
+#### 颜色
+
+```scss
+.p1 { background-color: #e88; }
+/* 颜色变亮：lighten($color, $amount) 第二个参数取值范围在0%~100%*/
+.p2 { background-color: lighten(#e88, 20%); }
+/* 颜色变暗：darken($color, $amount) 通常用color.scale()替换该方案*/
+.p3 { background-color: darken($color: #e88, $amount: 15%); }
+/* 降低颜色透明度：opacify($color, $amount) 通常用color.scale()替换该方案*/
+.p4 { background-color: opacify($color: rgba(#e88, 0.2), $amount: 0.5);}
+```
+
+#### 字符串
+
+```scss
+p {
+    /* 给字符串添加（quote）或去除（unquote）双引号 */
+    &::after {content: quote($string: "hello world");}
+    background-color: unquote($string: "#0ee");
+    /* 计算字符串长度 */
+    z-index: str-length($string: "sass");
+}
+
+p {
+  background-color: #0ee;
+  z-index: 4;
+}
+p::after {
+  content: "hello world";
+}
+```
+
+#### 数值
+
+```scss
+$opacity1: abs(-0.2); // 绝对值
+$opacity2: ceil(0.1); // 向上取整
+$opacity3: max(0.1, 0.2, 0.5); // 最大值
+$opacity4: random(); // 随机数0~1
+
+div {
+    background-color: rgba($color: #e88, $alpha: $opacity4);
+}
+```
+
+------
+
+## 流程控制
+
+@if、@else、@for
+
+
+
+------
+
+## 其它
+
+------
+
+### 支持数据类型
+
+-   数字，`1, 2, 13, 10px, 30%`
+-   字符串，有引号字符串与无引号字符串，`"foo", 'bar', baz`
+-   颜色，`blue, #04a3f9, rgba(255,0,0,0.5)`
+-   布尔型，`true, false`
+-   空值，`null`
+-   数组 (list)，用空格或逗号作分隔符，`1.5em 1em 0 2em, Helvetica, Arial, sans-serif`
+-   maps, 相当于 JavaScript 的 object，`(key1: value1, key2: value2)`
+
+------
+
+### 运算符
+
+| 符号        | 说明     | 支持数据类型 |
+| ----------- | -------- | ------------ |
+| `==`        | 等于     | 所有         |
+| `!=`        | 不等于   | 所有         |
+| `<（lt）`   | 小于     | 整数         |
+| `>（gt）`   | 大于     | 数字         |
+| `<=（lte）` | 小于等于 | 数字         |
+| `>=（gte）` | 大于等于 | 数字         |
+| and         | 逻辑与   |              |
+| or          | 逻辑或   |              |
+| not         | 逻辑非   |              |
+
+```scss
+$flag: 1;
+.container {
+    @if $flag ==1 {
+        background-color: #0ee;
+    }
+    @else {
+        background-color: #e88;
+    }
+}
+//============================
+$flag: 1;
+.container {
+    //  @if not ($flag ==1)  {
+    @if $flag ==1 not {
+        background-color: #0ee;
+    }
+    @else {
+        background-color: #e88;
+    }
+}
+```
+
+------
+
+### 数值运算
+
+#### 加法+和减法-
+
+ps: + 可以作字符串连接符
+
+```scss
+// ====scss运算====
+    width: 50 + 20;
+    width: 50 + 20%;
+    width: 20 + 10px;
+    width: 20% + 20%;
+    width: 10px + 30px;
+    width: 10px + 30pt;
+    width: 3px + 2pt;
+    width: 3pt + 2px;
+    // width:10px + 20%; // 报错
+
+// ====scss编译结果====
+    width: 70;
+    width: 70%;
+    width: 30px;
+    width: 40%;
+    width: 40px;
+    width: 50px;
+    width: 5.6666666667px;
+    width: 4.5pt;
+```
+
+#### 乘法*和除法/
+
+```scss
+// ====scss运算====
+    width: 5 * 20;
+    width: 5 * 20%;
+    width: 5 * 20px;
+    // width: 5% * 20%;  // 报错
+    // width: 5px * 20px;  // 报错
+
+// ====scss编译结果====
+    width: 100;
+    width: 100%;
+    width: 100px;
+```
+
+以下三种情况 `/` 将被视为除法运算符号：
+
+-   如果值，或值的一部分，是变量或者函数的返回值
+
+-   如果值被圆括号包裹
+
+-   如果值是算数表达式的一部分
+
+    ```scss
+    $width: 50px; 
+      font: 10px/8px;             // Plain CSS, no division 不运算
+      width: $width/2;            // Uses a variable, does division 使用变量，运算
+      width: round(1.5)/2;        // Uses a function, does division 使用了函数，运算
+      height: (500px/2);          // Uses parentheses, does division 使用了括号，运算
+      margin-left: 5px + 8px/2px; // Uses +, does division 使用了+表达式，运算
+    ```
+
+#### 取模%
+
+```scss
+// ====scss运算====
+    width: 3 % 2;
+    width: 3 % 2px;
+    width: 3 % 2%;
+    width: 3px % 2px;
+    width: 3% % 2%;
+    width: 3px % 2pt;
+    width: 3pt % 2px;
+    // width: 3% % 2px;
+    // width: 3px % 2%;
+// ====scss编译结果====
+    width: 1;
+    width: 1px;
+    width: 1%;
+    width: 1px;
+    width: 1%;
+    width: 0.3333333333px;
+    width: 0pt;
+```
+
+------
+
+#### 其它情况
+
+##### 1.字符串连接符
+
+加号”+“作为字符串连接符
+
+```scss
+// ====scss运算====
+    content: "hello" + world;
+    content: hello + "world";
+// ====scss编译结果====
+    content: "helloworld";
+    content: helloworld;
+```
+
+##### 2.插值语句`#{}`
+
+除法冲突和分隔符
+
+```scss
+// ====scss运算====
+$font-size: 12px;
+$font-height: 32px;
+font: $font-size/$font-height Helvetica;
+font: #{$font-size}/#{$font-height} Helvetica;
+// ====scss编译结果====
+font: 0.375 Helvetica;
+font: 12px/32px Helvetica;
+
+
+```
+
+```scss
+$class-name:danger;
+$attr:color;
+$author:"dd";
+/*
+	注释里使用插值语句：
+	@author:#{$author}
+*/
+a.#{$class-name}{
+    border-#{$attr}:#0ee;
+}
+// ====scss编译结果=====
+/*
+	注释里使用插值语句：
+	@author:dd
+*/
+a.danger {
+  border-color: #0ee;
+}
+```
+

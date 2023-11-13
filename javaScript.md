@@ -731,7 +731,7 @@ str = str.slice(-3,3); // 接受负值
 console.log(str); // yue 
 ```
 
-#### 替换·数组
+#### 替换·数组·转换
 
 | 序号 | String内置对象的方法           | 效果         | 注意                                       |
 | ---- | ------------------------------ | ------------ | ------------------------------------------ |
@@ -1081,7 +1081,7 @@ var colorArr = ['red', 'blue', 'yellow', 'purple', 'green', 'black'];
 // 1. toString() 将数组转逗号隔开字符串 返回值为字符串
 console.log(colorArr.toString()); //red,blue,yellow,purple,green,black
 
-// 2. join(分隔符)
+// 2. join(分隔符)。PS:字符串转数组str.split(":")
 console.log(colorArr.join()); // red,blue,yellow,purple,green,black
 console.log(colorArr.join('-')); // red-blue-yellow-purple-green-black
 console.log(colorArr.join('&')); // red&blue&yellow&purple&green&black
